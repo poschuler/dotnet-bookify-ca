@@ -1,0 +1,32 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  bookifyapi:
+    image: bookifyapi
+    build:
+      context: .
+      dockerfile: src/Bookify.Api/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5080:5080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+    depends_on:
+      - bookify-db
+
+  bookify-db:
+    image: postgres:latest
+    container_name: Bookify.Db
+    environment:
+      POSTGRES_DB: bookify
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
