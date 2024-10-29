@@ -43,7 +43,7 @@ internal sealed class SearchApartmentsQueryHandler : IQueryHandler<SearchApartme
                 a.address_state as State,
                 a.address_zip_code as ZipCode,
                 a.address_city as City,
-                a.address_street as Street,
+                a.address_street as Street
             FROM apartments a
             WHERE NOT EXISTS 
             (

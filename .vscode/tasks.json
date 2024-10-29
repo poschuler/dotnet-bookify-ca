@@ -38,6 +38,18 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build: debug"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/Bookify.Api/Bookify.Api.csproj",
+                "enableDebugging": true
+            }
+        },
+        {
             "type": "docker-build",
             "label": "docker-build: debug",
             "dependsOn": [
@@ -72,18 +84,6 @@
             },
             "netCore": {
                 "appProject": "${workspaceFolder}/src/Bookify.Api/Bookify.Api.csproj"
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: debug",
-            "dependsOn": [
-                "docker-build: debug"
-            ],
-            "dockerRun": {},
-            "netCore": {
-                "appProject": "${workspaceFolder}/src/Bookify.Api/Bookify.Api.csproj",
-                "enableDebugging": true
             }
         },
         {
