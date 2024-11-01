@@ -32,7 +32,7 @@ public static class DependencyInjection
         services.AddTransient<IEmailService, EmailService>();
 
         AddPersistance(services, configuration);
-        
+
         AddAuthentication(services, configuration);
 
         return services;
@@ -63,6 +63,10 @@ public static class DependencyInjection
             var keycloakOptions = serviceProvider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
             httpClient.BaseAddress = new Uri(keycloakOptions.TokenUrl);
         });
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IUserContext, UserContext>();
     }
 
     private static void AddPersistance(IServiceCollection services, IConfiguration configuration)

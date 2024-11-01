@@ -14,16 +14,10 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         builder.HasKey(role => role.Id);
 
-        builder.Property(role => role.Id)
-            .ValueGeneratedNever();
+        builder.HasMany(role => role.Users)
+            .WithMany(user => user.Roles);
 
-        builder.Property(role => role.Name)
-            .HasMaxLength(50)
-            .IsRequired();
-
-        builder.HasData(
-            new Role { Id = Guid.NewGuid(), Name = "Registered" },
-            new Role { Id = Guid.NewGuid(), Name = "Admin" });
+        builder.HasData(Role.Registered);
     }
     
 }

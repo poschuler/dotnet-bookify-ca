@@ -35,6 +35,7 @@ public class User : Entity
         user._roles.Add(Role.Registered);
 
         user.RaiseDomainEvent(new UserCreatedDomainEvent(user.Id));
+        
         return user;
     }
 
