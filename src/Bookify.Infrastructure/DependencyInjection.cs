@@ -25,6 +25,8 @@ using AuthenticationService = Bookify.Infrastructure.Authentication.Authenticati
 using IAuthenticationService = Bookify.Application.Abstractions.Authentication.IAuthenticationService;
 using AuthenticationOptions = Bookify.Infrastructure.Authentication.AuthenticationOptions;
 using Microsoft.AspNetCore.Authorization;
+using Bookify.Application.Abstractions.Caching;
+using Bookify.Infrastructure.Caching;
 
 namespace Bookify.Infrastructure;
 
@@ -43,6 +45,8 @@ public static class DependencyInjection
         AddAuthentication(services, configuration);
 
         AddAuthorization(services);
+
+        AddCaching(services, configuration);
 
         return services;
     }
@@ -111,5 +115,16 @@ public static class DependencyInjection
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
         services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+    }
+
+    private static void AddCaching(IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString =
+                    configuration.GetConnectionString("Cache") ??
+                    throw new ArgumentException(nameof(configuration));
+
+        services.AddStackExchangeRedisCache(options => options.Configuration = connectionString);
+
+        services.AddSingleton<ICacheService, CacheService>();
     }
 }
