@@ -9,7 +9,7 @@ public class PricingService
     {
         var currency = apartment.Price.Currency;
 
-        var priceForPeriod = new Money(apartment.Price.Amount * period.LegthInDays, currency);
+        var priceForPeriod = new Money(apartment.Price.Amount * period.LengthInDays, currency);
 
         decimal percentageUpCharge = 0;
 
@@ -30,7 +30,7 @@ public class PricingService
             amenitiesUpCharge = new Money(priceForPeriod.Amount * percentageUpCharge, currency);
         }
 
-        var totalPrice = Money.Zero();
+        var totalPrice = Money.Zero(currency);
 
         totalPrice += priceForPeriod;
 

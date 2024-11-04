@@ -39,6 +39,12 @@ public class AuthenticationService : IAuthenticationService
             userRepresentationModel,
             cancellationToken);
 
+        // if (!response.IsSuccessStatusCode)
+        // {
+        //     var errorContent = await response.Content.ReadAsStringAsync(cancellationToken);
+        //     throw new InvalidOperationException($"Failed to register user. Status code: {response.StatusCode}, Error: {errorContent}");
+        // }
+
         return ExtractIdentityIdFromLocationHeader(response);
     }
 
